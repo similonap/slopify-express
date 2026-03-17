@@ -306,13 +306,13 @@ const user: User = {
 
 
 export async function getCurrentUser(): Promise<User> {
-    return new Promise((res, rej) => {
+    return new Promise((res) => {
         res(user);
     })
 }
 
 export async function addCredits(credits: number): Promise<User> {
-    return new Promise((res, rej) => {
+    return new Promise((res) => {
         user.credits += credits;
 
         res(user);
@@ -320,14 +320,15 @@ export async function addCredits(credits: number): Promise<User> {
 }
 
 export async function getSongById(id: number): Promise<Song | undefined> {
-    return new Promise((res, rej) => {
+    return new Promise((res) => {
         let song = songs.find(song => song.id === id);
 
         if (song) {
             let owned: boolean = !!user.owned.find((s) => s.id === song.id);
-            song.owned = owned
+            res({...song, owned: owned})
+        } else {
+            res(undefined);
         }
-        res(song);
     })
 }
 
@@ -351,16 +352,20 @@ export async function buySong(id: number): Promise<void> {
 }
 
 export async function getSongs(q: string,sortField: SortField, sortDirection: SortDirection): Promise<Song[]> {
-    return new Promise((res, rej) => {
-        let filtered : Song[] = songs;
+    return new Promise((res) => {
+        let filteredSongs : Song[] = songs.map((song) => {
+            let owned: boolean = !!user.owned.find((s) => s.id === song.id);
+            return { ...song, owned: owned};
+        })
         if (q) {
-            filtered = songs.filter(song => {
+            filteredSongs = filteredSongs.filter(song => {
                 return song.title.toUpperCase().includes(q.toUpperCase()) || 
                     song.description.toUpperCase().includes(q.toUpperCase())
             });
         }
+
         if (sortField && sortDirection) {
-            filtered.sort((a,b) => {
+            filteredSongs.sort((a,b) => {
                 switch (sortField) {
                     case "owned": 
                         return Number(a.owned) - Number(b.owned);
@@ -372,15 +377,12 @@ export async function getSongs(q: string,sortField: SortField, sortDirection: So
             })
 
             if (sortDirection === "desc") {
-                filtered.reverse();
+                filteredSongs.reverse();
             }
         }
 
-        filtered = filtered.map((song) => {
-            let owned: boolean = !!user.owned.find((s) => s.id === song.id);
-            return { owned: owned, ...song };
-        })
 
-        res(filtered);
+
+        res(filteredSongs);
     })
 }

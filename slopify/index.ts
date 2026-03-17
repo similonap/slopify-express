@@ -20,12 +20,16 @@ app.post("/buy", async(req,res) => {
     try {
         let id : number = parseInt(req.body.id);
 
-        await buySong(id);
+        if (!isNaN(id)) {
+            await buySong(id);
+        } else {
+            throw new Error("Id must be a number")
+        }
         
         res.redirect("/songs")
-    } catch (e) {
+    } catch (e: any) {
         res.render("billing", {
-            error: "You don't have enough coins to buy this song"
+            error: e.message
         })
     }
 })
@@ -37,11 +41,21 @@ app.get("/billing", async(req,res) => {
 })
 
 app.post("/billing", async(req,res) => {
-    let amount: number = parseInt(req.body.amount);
+    try {
+        let amount: number = parseInt(req.body.amount);
 
-    await addCredits(amount);
+        if (!isNaN(amount) && amount > 0) {
+            await addCredits(amount);
+        } else {
+            throw new Error("Amount should be a positive number")
+        }
 
-    res.redirect("/songs");
+        res.redirect("/songs");
+    } catch (e: any) {
+        res.render("billing", {
+            error: e.message
+        });
+    } 
 });
 
 app.get("/", (req,res) => {
@@ -58,7 +72,7 @@ app.get("/songs", async(req, res) => {
         return res.status(400).send("Invalid sort field");
     }
     if (sortDirection !== "asc" && sortDirection !== "desc") {
-        return res.status(400).send("Invalid sortfield")
+        return res.status(400).send("Invalid sort direction")
     }
     
     let songs: Song[] = await getSongs(q,sortField, sortDirection);
