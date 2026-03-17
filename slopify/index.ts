@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set('views', path.join(__dirname, "views"));
 
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || /* istanbul ignore next */ 3000);
 
 app.post("/buy", async(req,res) => {
     try {
@@ -103,6 +103,11 @@ app.get("/songs/:id", async(req, res) => {
     res.render("song", { song, currentUser })
 })
 
-app.listen(app.get("port"), () => {
-    console.log("Server started on http://localhost:" + app.get('port'));
-});
+/* istanbul ignore next */
+if (require.main === module) {
+    app.listen(app.get("port"), () => {
+        console.log("Server started on http://localhost:" + app.get('port'));
+    });
+}
+
+export { app };
