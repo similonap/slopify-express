@@ -103,11 +103,9 @@ app.get("/songs/:id", async(req, res) => {
     res.render("song", { song, currentUser })
 })
 
-/* istanbul ignore next */
-if (require.main === module) {
-    app.listen(app.get("port"), () => {
-        console.log("Server started on http://localhost:" + app.get('port'));
-    });
-}
+app.listen(app.get("port"), () => {
+    console.log("Server started on http://localhost:" + app.get('port'));
+});
+
 
 export { app };
