@@ -293,6 +293,20 @@ const songs: Song[] = [
       "genre": "Electro Swing",
       "type": "AI Music"
     }
+  },
+  {
+    "id": 22,
+    "title": "Schrale Willie - Die Wurst ist top (eins zwei saufen currywurst kaufen)",
+    "description": "Schrale Willie - Die Wurst ist top (eins zwei saufen currywurst kaufen)",
+    "credits": 100,
+    "thumbnail": "https://files.assimilate.be/music/Die_Wurst_Ist_Top.jpg",
+    "mp3": "https://files.assimilate.be/music/Die_Wurst_Ist_Top.mp3",
+    "more_information": {
+      "publish_date": "2026-03-17",
+      "genre": "Comedy",
+      "type": "Music Video",
+      "youtube": "https://www.youtube.com/watch?v=KeoM2HRVFJ8"
+    }
   }
 ]
 
