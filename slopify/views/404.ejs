@@ -4,19 +4,17 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
-    <div class="flex min-h-screen items-center justify-center bg-gradient-to-b from-[#1e1e1e] to-[#121212] p-6 text-white">
-        
-        <div class="w-full max-w-md">
-            
-            <div class="w-full overflow-hidden rounded-2xl bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 p-[1px] shadow-2xl shadow-black/60">
-                <div class="flex flex-col items-center justify-center rounded-2xl bg-neutral-950/80 p-10 text-center backdrop-blur">
-                    
-                    <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-neutral-900/50 ring-1 ring-neutral-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8 text-emerald-500">
+    <div class="page-center">
+        <div class="error-page-container">
+            <div class="error-card">
+                <div class="error-card-inner">
+
+                    <div class="error-icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="error-icon-svg">
                             <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
                             <line x1="9.5" y1="12.5" x2="14.5" y2="17.5"></line>
@@ -24,20 +22,17 @@
                         </svg>
                     </div>
 
-                    <h1 class="mb-2 text-6xl font-extrabold tracking-tight text-white">
-                        4<span class="text-emerald-500">0</span>4
+                    <h1 class="error-code">
+                        4<span class="error-highlight">0</span>4
                     </h1>
-                    <h2 class="mb-4 text-xl font-semibold text-neutral-200">Page Not Found</h2>
-                    <p class="mb-8 text-sm text-neutral-400">
+                    <h2 class="error-title">Page Not Found</h2>
+                    <p class="error-desc">
                         We couldn't find the page you're looking for. It might have been moved, deleted, or perhaps the URL is incorrect.
                     </p>
 
-                    <a href="/" class="inline-flex h-11 w-full max-w-[200px] items-center justify-center rounded-full bg-emerald-500 px-5 text-sm font-semibold text-black transition hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400">
-                        Back to Home
-                    </a>
+                    <a href="/" class="btn-home">Back to Home</a>
                 </div>
             </div>
-
         </div>
     </div>
 </body>

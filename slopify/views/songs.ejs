@@ -1,46 +1,37 @@
 <%- include("partials/header") %>
-    <div class="flex min-h-screen bg-gradient-to-b from-[#1e1e1e] to-[#121212]">
+    <div class="app-layout">
         <%- include("partials/aside") %>
 
-        <main class="ml-64 flex-1 p-6 text-white">
-            <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:gap-4">
-                <div class="flex-1">
-                    <form
-                        class="relative mx-auto flex max-w-2xl items-center gap-3 rounded-full bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 p-[1px] shadow-lg shadow-black/50">
-                        <div
-                            class="flex flex-1 items-center gap-3 rounded-full bg-neutral-950/80 px-5 py-3 backdrop-blur">
-                            <span class="text-neutral-400">
+        <main class="main-content">
+            <div class="toolbar">
+                <div class="search-wrapper">
+                    <form class="pill-bar search-form">
+                        <div class="pill-bar-inner">
+                            <span class="bar-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="h-5 w-5">
+                                    stroke-linejoin="round" class="icon-sm">
                                     <circle cx="11" cy="11" r="7"></circle>
                                     <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
                                 </svg>
                             </span>
                             <input
-                                class="w-full bg-transparent text-sm text-white placeholder:text-neutral-500 focus:outline-none"
+                                class="search-input"
                                 type="search" placeholder="Search songs, artists, albums..." name="q"
                                 value="<%= q %>" />
-
-
                             <input type="hidden" value="<%= sortField %>" name="sortField">
                             <input type="hidden" value="<%= sortDirection %>" name="sortDirection">
                         </div>
-                        <button type="submit"
-                            class="mr-2 inline-flex h-11 items-center rounded-full bg-emerald-500 px-5 text-sm font-semibold text-black transition hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400">
-                            Search
-                        </button>
+                        <button type="submit" class="btn-search">Search</button>
                     </form>
                 </div>
-                <div class="md:w-80">
-                    <div
-                        class="flex items-center gap-3 rounded-full bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 p-[1px] shadow-lg shadow-black/50">
-                        <div
-                            class="flex flex-1 items-center gap-3 rounded-full bg-neutral-950/80 px-5 py-3 backdrop-blur">
-                            <span class="text-neutral-400">
+                <div class="sort-wrapper">
+                    <div class="pill-bar">
+                        <div class="pill-bar-inner">
+                            <span class="bar-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="h-5 w-5">
+                                    stroke-linejoin="round" class="icon-sm">
                                     <path d="M3 6h18"></path>
                                     <path d="M7 12h10"></path>
                                     <path d="M10 18h4"></path>
@@ -49,22 +40,22 @@
                             <form>
                                 <input type="hidden" name="q" value="<%= q %>" />
                                 <select id="sortField" name="sortField"
-                                    class="bg-transparent text-sm text-white focus:outline-none cursor-pointer"
+                                    class="sort-select"
                                     onchange="this.form.submit()">
-                                    <option value="title" class="bg-neutral-900" selected="" <%=sortField==='title'
+                                    <option value="title" class="select-option" selected="" <%=sortField==='title'
                                         ? 'selected' : '' %>>Title</option>
-                                    <option value="owned" class="bg-neutral-900" <%=sortField==='owned' ? 'selected'
+                                    <option value="owned" class="select-option" <%=sortField==='owned' ? 'selected'
                                         : '' %>>Owned</option>
-                                    <option value="publish_date" class="bg-neutral-900" <%=sortField==='publish_date'
+                                    <option value="publish_date" class="select-option" <%=sortField==='publish_date'
                                         ? 'selected' : '' %>>Publish Date</option>
                                 </select>
-                                <span class="text-neutral-600">|</span>
+                                <span class="sort-divider">|</span>
                                 <select id="sortDirection" name="sortDirection"
-                                    class="bg-transparent text-sm text-white focus:outline-none cursor-pointer"
+                                    class="sort-select"
                                     onchange="this.form.submit()">
-                                    <option value="asc" class="bg-neutral-900" <%=sortDirection==='asc' ? 'selected'
+                                    <option value="asc" class="select-option" <%=sortDirection==='asc' ? 'selected'
                                         : '' %>>ASC</option>
-                                    <option value="desc" class="bg-neutral-900" <%=sortDirection==='desc' ? 'selected'
+                                    <option value="desc" class="select-option" <%=sortDirection==='desc' ? 'selected'
                                         : '' %>>DESC</option>
                                 </select>
                             </form>
@@ -72,54 +63,39 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <div class="songs-grid">
 
-                    <% for (let song of songs) { %>
-                        <div
-                            class="bg-[#181818] p-4 rounded-lg hover:bg-[#282828] transition-colors duration-300 cursor-pointer group">
-                            <div class="relative mb-4">
-                                <div>
-                                    <img src="<%= song.thumbnail %>" alt="<%= song.title %>" loading="lazy" width="200"
-                                        height="200" class="w-full aspect-square object-contain rounded-md" />
-                                    <div class="absolute bottom-2 right-2"></div>
-                                    <% if (!song.owned) { %>
-                                        <form action="buy" method="post">
-                                            <input type="hidden" name="id" value="<%= song.id %>">
-                                            <button
-                                                class="absolute top-2 left-2 flex justify-center bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full shadow-md z-10 cursor-pointer hover:bg-yellow-400 transition-colors min-w-[70px] text-center">
-                                                <%= song.credits %> credits
-                                            </button>
-                                        </form>
-                                        <% } else { %>
-                                            <div
-                                                class="absolute top-2 left-2 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md z-10">
-                                                Owned</div>
-                                            <% } %>
+                <% for (let song of songs) { %>
+                    <div class="song-card">
+                        <div class="song-card-thumb">
+                            <img src="<%= song.thumbnail %>" alt="<%= song.title %>" loading="lazy" width="200"
+                                height="200" class="song-card-img" />
+                            <% if (!song.owned) { %>
+                                <form action="buy" method="post">
+                                    <input type="hidden" name="id" value="<%= song.id %>">
+                                    <button class="btn-buy"><%= song.credits %> credits</button>
+                                </form>
+                            <% } else { %>
+                                <div class="badge-owned">Owned</div>
+                            <% } %>
+                        </div>
+                        <a href="/songs/<%= song.id %>">
+                            <div>
+                                <h2 class="song-card-title" title="<%= song.title %>">
+                                    <%= song.title %>
+                                </h2>
+                                <p class="song-card-desc" title="<%= song.title %>">
+                                    <%= song.description %>
+                                </p>
+                                <div class="song-card-meta">
+                                    <span><%= song.more_information.genre %></span>
+                                    <span><%= song.more_information.publish_date.substring(0,4) %></span>
                                 </div>
                             </div>
-                            <a href="/songs/<%= song.id %>">
-                                <div>
-                                    <h2 class="text-base font-bold mb-1 truncate" title="<%= song.title %>">
-                                        <%= song.title %>
-                                    </h2>
-                                    <p class="text-sm text-[#a7a7a7] line-clamp-2 mb-2" title="<%= song.title %>">
-                                        <%= song.description %>
-                                    </p>
-                                    <div class="flex items-center justify-between text-xs text-[#a7a7a7] mt-auto">
-                                        <span>
-                                            <%= song.more_information.genre %>
-                                        </span>
-                                        <span>
-                                            <%= song.more_information.publish_date.substring(0,4) %>
-                                        </span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <% } %>
+                        </a>
+                    </div>
+                <% } %>
 
-                </div>
             </div>
         </main>
     </div>
