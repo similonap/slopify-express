@@ -19,17 +19,14 @@ app.set("port", process.env.PORT || /* istanbul ignore next */ 3000);
 app.post("/buy", async(req,res) => {
     try {
         let id : number = parseInt(req.body.id);
-
         if (!isNaN(id)) {
             await buySong(id);
-        } else {
-            throw new Error("Id must be a number")
         }
         
         res.redirect("/songs")
     } catch (e: any) {
         res.render("billing", {
-            error: e.message
+            error: e.message,
         })
     }
 })
@@ -80,6 +77,7 @@ app.get("/songs", async(req, res) => {
     let currentUser: User = await getCurrentUser();
     
     res.render("songs", {
+        error: "",
         songs: songs,
         q: q,
         sortField: sortField,

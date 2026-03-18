@@ -1,6 +1,6 @@
 import { Song, SortDirection, SortField, User } from "./types";
 
-export const songs: Song[] = [
+const songs: Song[] = [
   {
     "id": 1,
     "title": "All I want for christmas (Mariah Carey Cover)",
@@ -328,7 +328,6 @@ export async function getCurrentUser(): Promise<User> {
 export async function addCredits(credits: number): Promise<User> {
     return new Promise((res) => {
         user.credits += credits;
-        console.log("test")
 
         res(user);
     })
@@ -401,5 +400,3 @@ export async function getSongs(q: string,sortField: SortField, sortDirection: So
         res(filteredSongs);
     })
 }
-
-export default songs;
